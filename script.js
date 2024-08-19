@@ -8,6 +8,7 @@ const closeModalBtn = document.getElementById("close-modal-btn")
 const cartCounter = document.getElementById("cart-count")
 const addressInput = document.getElementById("address")
 const addressWarn = document.getElementById("address-warn")
+let totalCompra = 0;
 
 
 let cart = [] // aqui serão adicionados os itens começa vazio
@@ -105,6 +106,8 @@ function updateCartModal(){
         `
 
         total += item.price * item.quantity;
+        totalCompra = total;
+        
 
         cartItemsContainer.appendChild(cartItemElement)
     })
@@ -209,7 +212,7 @@ checkoutBtn.addEventListener("click", function() {
     
     const cartItems = cart.map((item)=>{
         return(
-            `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price} |`
+            `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price.toFixed(2)}\n`
         )
     }).join("") // envia em formato de string
 
@@ -218,7 +221,7 @@ checkoutBtn.addEventListener("click", function() {
     const phone = "61992371633"  // telefone que chegara o pedido
 
     // enviando para API do whatsapp
-    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`,"_blank")
+    window.open(`https://wa.me/${phone}?text=${message}Total da compra: R$${totalCompra.toFixed(2)}  Endereço: ${addressInput.value.toUpperCase()}`,"_blank")
 
     cart = []; // zera o carrinho
     updateCartModal();
