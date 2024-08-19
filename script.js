@@ -164,16 +164,45 @@ addressInput.addEventListener("input", function(event){
 })
 
 //verificações de carrinho vazio ou endereço vazio
+//finalizar pedido
 checkoutBtn.addEventListener("click", function() {
+
+    const isOpen = checkRestaurantOpen();
+
+    // verifica se esta dentro do horario de funcionamento
+    if(!isOpen){
+        alert("RESTAURANTE FECHADO NO MOMENTO")
+        return;
+    }
+
     if (cart.length === 0) return; // se não tiver nada no carrinho ele não faz nada
     if (addressInput.value === "") {
         addressWarn.classList.remove("hidden");
         addressInput.classList.add("border-red-500");
         return;
     }
-    
 
+    //enviar o pedido para api whats
     
 })
+
+// Verificar a hora de manipular o card horario
+function checkRestaurantOpen(){
+    const data = new Date();
+    const hora = data.getHours();
+    return hora >= 18 && hora < 22; // true restaurante aberto
+}
+
+const spanItem = document.getElementById("date-span")
+const isOpen = checkRestaurantOpen();
+
+// muda a cor do span de verde para vermelho dependendo do horario
+if(isOpen){
+    spanItem.classList.remove("bg-red-500");
+    spanItem.classList.add('bg-green-600')
+}else{
+    spanItem.classList.remove("bg-green-600")
+    spanItem.classList.add("bg-red-500")
+}
 
 
