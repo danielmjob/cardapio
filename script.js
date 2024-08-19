@@ -52,6 +52,22 @@ menu.addEventListener("click", function(event){
     }
 })
 
+//mensagem de adicionado ao carrinho
+function messageToastify(){
+    Toastify({
+        text: "Adicionado ao Carrinho",
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+        background: "#16A34A",
+        },
+    }).showToast();
+}
+
 
 //função para adicionar no carrinho
 function addToCart(name, price){
@@ -61,7 +77,7 @@ function addToCart(name, price){
     if(existingItem){
         // se ja exister ele soma na quantidade e não cria um novo
         existingItem.quantity += 1;
-        
+        messageToastify()
 
     }else{
         // adiciona a primeira vez
@@ -70,6 +86,8 @@ function addToCart(name, price){
             price,
             quantity: 1,
         })
+
+        messageToastify()
     }
 
     //atualiza carrinho
@@ -174,30 +192,30 @@ checkoutBtn.addEventListener("click", function() {
 // Para testes fora do horario das 18 as 22 comentar as linhas abaixo
 // Inicio comentarios ---
 
-    // const isOpen = checkRestaurantOpen();
+    const isOpen = checkRestaurantOpen();
 
-    // // verifica se esta dentro do horario de funcionamento
-    // if(!isOpen){
+    // verifica se esta dentro do horario de funcionamento
+    if(!isOpen){
 
-    //     // Alerta personalizado Toastify JS
-    //     // https://apvarun.github.io/toastify-js/
+        // Alerta personalizado Toastify JS
+        // https://apvarun.github.io/toastify-js/
 
-    //     Toastify({
-    //         text: "Ops! O Restaurante está fechado",
-    //         duration: 3000,
-    //         destination: "https://github.com/apvarun/toastify-js",
-    //         close: true,
-    //         gravity: "top", // `top` or `bottom`
-    //         position: "right", // `left`, `center` or `right`
-    //         stopOnFocus: true, // Prevents dismissing of toast on hover
-    //         style: {
-    //           background: "#EF4444",
-    //         },
-    //     }).showToast();
+        Toastify({
+            text: "Ops! O Restaurante está fechado",
+            duration: 3000,
+            destination: "https://github.com/apvarun/toastify-js",
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "#EF4444",
+            },
+        }).showToast();
         
-    //     return;
+        return;
 
-    // }
+    }
 
 // --- Fim comentarios
 
@@ -212,13 +230,13 @@ checkoutBtn.addEventListener("click", function() {
     
     const cartItems = cart.map((item)=>{
         return(
-            `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price.toFixed(2)}\n`
+            `| ${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price.toFixed(2)}\n`
         )
     }).join("") // envia em formato de string
 
     console.log(cartItems);
     const message = encodeURIComponent(cartItems)
-    const phone = "61992371633"  // telefone que chegara o pedido
+    const phone = "00000000000"  // telefone que chegara o pedido
 
     // enviando para API do whatsapp
     window.open(`https://wa.me/${phone}?text=${message}Total da compra: R$${totalCompra.toFixed(2)}  Endereço: ${addressInput.value.toUpperCase()}`,"_blank")
