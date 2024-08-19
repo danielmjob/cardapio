@@ -16,9 +16,7 @@ let cart = [] // aqui serão adicionados os itens começa vazio
 cartBtn.addEventListener("click", function(){
     updateCartModal()
     cartModal.style.display="flex"
-    // faz com que o modal apareça adiciona flex no lugar do hidden
-
-    
+    // faz com que o modal apareça adiciona flex no lugar do hidden    
 })
 
 
@@ -55,7 +53,6 @@ menu.addEventListener("click", function(event){
 
 
 //função para adicionar no carrinho
-
 function addToCart(name, price){
    // adiciona o item ao array do carrinho
     const existingItem = cart.find(item => item.name === name) // confere se o item ja esta na lista
@@ -78,6 +75,7 @@ function addToCart(name, price){
     updateCartModal()
 
 }
+
 
 //atualiza o carrinho
 function updateCartModal(){
@@ -123,7 +121,6 @@ function updateCartModal(){
 
 
 // função para remover itens do carrinho
-
 cartItemsContainer.addEventListener("click", function(event){
     if(event.target.classList.contains("remove-from-cart-btn")){
         const name =  event.target.getAttribute("data-name")
@@ -153,5 +150,30 @@ function removeItemCart(name){
         
     }
 }
+
+// pegando endereço digitado no input
+addressInput.addEventListener("input", function(event){
+    let inputValue = event.target.value;
+
+    if(inputValue !== ""){
+        // removendo as classes de aviso
+        addressInput.classList.remove("border-red-500")
+        addressWarn.classList.add("hidden")
+    }
+
+})
+
+//verificações de carrinho vazio ou endereço vazio
+checkoutBtn.addEventListener("click", function() {
+    if (cart.length === 0) return; // se não tiver nada no carrinho ele não faz nada
+    if (addressInput.value === "") {
+        addressWarn.classList.remove("hidden");
+        addressInput.classList.add("border-red-500");
+        return;
+    }
+    
+
+    
+})
 
 
