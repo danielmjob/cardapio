@@ -167,13 +167,36 @@ addressInput.addEventListener("input", function(event){
 //finalizar pedido
 checkoutBtn.addEventListener("click", function() {
 
-    const isOpen = checkRestaurantOpen();
+//Importante
+// Para testes fora do horario das 18 as 22 comentar as linhas abaixo
+// Inicio comentarios ---
 
-    // verifica se esta dentro do horario de funcionamento
-    if(!isOpen){
-        alert("RESTAURANTE FECHADO NO MOMENTO")
-        return;
-    }
+    // const isOpen = checkRestaurantOpen();
+
+    // // verifica se esta dentro do horario de funcionamento
+    // if(!isOpen){
+
+    //     // Alerta personalizado Toastify JS
+    //     // https://apvarun.github.io/toastify-js/
+
+    //     Toastify({
+    //         text: "Ops! O Restaurante está fechado",
+    //         duration: 3000,
+    //         destination: "https://github.com/apvarun/toastify-js",
+    //         close: true,
+    //         gravity: "top", // `top` or `bottom`
+    //         position: "right", // `left`, `center` or `right`
+    //         stopOnFocus: true, // Prevents dismissing of toast on hover
+    //         style: {
+    //           background: "#EF4444",
+    //         },
+    //     }).showToast();
+        
+    //     return;
+
+    // }
+
+// --- Fim comentarios
 
     if (cart.length === 0) return; // se não tiver nada no carrinho ele não faz nada
     if (addressInput.value === "") {
@@ -184,6 +207,22 @@ checkoutBtn.addEventListener("click", function() {
 
     //enviar o pedido para api whats
     
+    const cartItems = cart.map((item)=>{
+        return(
+            `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price} |`
+        )
+    }).join("") // envia em formato de string
+
+    console.log(cartItems);
+    const message = encodeURIComponent(cartItems)
+    const phone = "61992371633"  // telefone que chegara o pedido
+
+    // enviando para API do whatsapp
+    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`,"_blank")
+
+    cart = []; // zera o carrinho
+    updateCartModal();
+
 })
 
 // Verificar a hora de manipular o card horario
